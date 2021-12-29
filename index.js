@@ -98,6 +98,13 @@ class ConstellarExtension {
       /*=================
       API Get
       ===================*/
+      try {
+        this.ApiObj = axios.get("https://AeryumaNoriyomi.nekokawaikanaka.repl.co/").then(x => x.data)
+        console.log('[INFO] AeryumaNoriyomi Masih Berjalan Dan Berhasil Diambil Datanya')
+      } catch (err) {
+        console.log(`[ERROR] API Eror : ${err}`)
+      }
+
       setInterval(function() {
         try {
           this.ApiObj = axios.get("https://AeryumaNoriyomi.nekokawaikanaka.repl.co/").then(x => x.data)
@@ -301,7 +308,7 @@ class ConstellarExtension {
 
               return { args, flags };
             }
-            
+
           }
           if (interaction.commandName === "execute") {
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
