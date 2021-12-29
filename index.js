@@ -446,3 +446,5 @@ class ConstellarExtension {
     }
   }
 }
+
+module.exports = ConstellarExtension
