@@ -127,17 +127,20 @@ class ConstellarExtension {
       if (!mongoLink) {
         throw 'Isi Dulu mongoLinknya Kakak 😌'
       } else {
-        client.on('ready', () => {
-
-
+        try {
           mongoose.connect(
             mongoLink, { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true }
           );
-
           mongoose.connection.on('open', () => {
             console.log(`[INFO] Database Connected (Mongoose)`);
           });
-        })
+          mongoose.connection.on('error', err => {
+            console.log("[DATABASE] Error :" + err);
+          });
+        } catch (err) {
+          console.log('[INFO] Database Failed to Connect (Mongoose) :\n\n' + err)
+        }
+
       }
 
       //Ya Gak Tau Sih...
@@ -462,6 +465,11 @@ class ConstellarExtension {
       data = `${hari} Hari ${jam} Jam ${menit} Menit ${detik} Detik`
       return data
     }
+  }
+
+  get(url) {
+    var axios = require('axios')
+    return axios.get(url).then(x => x.data)
   }
 }
 
