@@ -123,10 +123,11 @@ class ConstellarExtension {
       }, 30000)
 
       //Database Dari .env
+      const mongoose = require('mongoose')
+      const mongoLink = process.env.mongoLink;
       if (mongoLink) {
         client.on('ready', () => {
-          const mongoose = require('mongoose')
-          const mongoLink = process.env.mongoLink;
+          
 
           mongoose.connect(
             mongoLink, { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true }
