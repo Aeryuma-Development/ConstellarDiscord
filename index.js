@@ -87,11 +87,11 @@ class ConstellarExtension {
       ===================*/
       console.log(`[INFO] Aktifitas Bot Saat Ini Adalah\n\n ${this.activity}`)
       client.user.setPresence({ status: 'idle', activities: [{ name: this.activity }] })
-      setInterval(function(){
-        if(typeof this.activity === "string") {
+      setInterval(function() {
+        if (typeof this.activity === "string") {
           client.user.setPresence({ status: 'idle', activities: [{ name: this.activity }] })
         }
-      },120000)
+      }, 120000)
       /*=================
       Uptime
       ===================*/
@@ -124,10 +124,11 @@ class ConstellarExtension {
 
       //Database Dari .env
       const mongoose = require('mongoose')
-      const mongoLink = process.env.mongoLink;
-      if (mongoLink) {
+      if (!mongoLink) {
+        throw 'Isi Dulu mongoLinknya Kakak 😌'
+      } else {
         client.on('ready', () => {
-          
+
 
           mongoose.connect(
             mongoLink, { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true }
@@ -137,8 +138,6 @@ class ConstellarExtension {
             console.log(`[INFO] Database Connected (Mongoose)`);
           });
         })
-      } else {
-        throw 'Isi Dulu mongoLink di ".env" Kakak 😌'
       }
 
       //Ya Gak Tau Sih...
