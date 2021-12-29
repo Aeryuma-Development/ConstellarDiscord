@@ -105,16 +105,20 @@ class ConstellarExtension {
       API Get
       ===================*/
       try {
-        this.ApiObj = axios.get("https://AeryumaNoriyomi.nekokawaikanaka.repl.co/").then(x => x.data)
-        console.log('[INFO] AeryumaNoriyomi Masih Berjalan Dan Berhasil Diambil Datanya')
+        axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
+          console.log('[INFO] API Connected')
+          return this.ApiObj = x.data
+        })
       } catch (err) {
         console.log(`[ERROR] API Eror : ${err}`)
       }
 
       setInterval(function() {
         try {
-          this.ApiObj = axios.get("https://AeryumaNoriyomi.nekokawaikanaka.repl.co/").then(x => x.data)
-          console.log('[INFO] AeryumaNoriyomi Berhasil Diambil Datanya')
+          axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
+            console.log('[INFO] API Connected')
+            return this.ApiObj = x.data
+          })
         } catch (err) {
           console.log(`[ERROR] API Eror : ${err}`)
         }
