@@ -1,9 +1,15 @@
 class ConstellarExtension {
   constructor() {
     this._events = {};
-    this.version = "v1.0.00000-discord"
+    this.version = "v1.0.00000-discord";
+    this.mode = undefined;
+    this.sector = undefined;
+    this.protocok = undefined;
+    this.shard = null;
+    this.status = undefined;
+    this.ApiObj = undefined;
   }
-  open(client, tokenApi, status) {
+  open(client, tokenApi, mongoLink, status) {
     try {
       var axios = require("axios");
       if (!process.version === 'v17.3.0') {
@@ -108,26 +114,29 @@ class ConstellarExtension {
       setInterval(function() {
         try {
           this.ApiObj = axios.get("https://AeryumaNoriyomi.nekokawaikanaka.repl.co/").then(x => x.data)
-          console.log('[INFO] AeryumaNoriyomi Masih Berjalan Dan Berhasil Diambil Datanya')
+          console.log('[INFO] AeryumaNoriyomi Berhasil Diambil Datanya')
         } catch (err) {
           console.log(`[ERROR] API Eror : ${err}`)
         }
       }, 30000)
 
       //Database Dari .env
-      if (process.env.mongoLink === null || undefined) throw 'Isi Dulu mongoLink di ".env" Kakak 😌'
-      client.on('ready', () => {
-        const mongoose = require('mongoose')
-        const mongoLink = process.env.mongoLink;
+      if (mongoLink) {
+        client.on('ready', () => {
+          const mongoose = require('mongoose')
+          const mongoLink = process.env.mongoLink;
 
-        mongoose.connect(
-          mongoLink, { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true }
-        );
+          mongoose.connect(
+            mongoLink, { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true }
+          );
 
-        mongoose.connection.on('open', () => {
-          console.log(`[INFO] Database Connected (Mongoose)`);
-        });
-      })
+          mongoose.connection.on('open', () => {
+            console.log(`[INFO] Database Connected (Mongoose)`);
+          });
+        })
+      } else {
+        throw 'Isi Dulu mongoLink di ".env" Kakak 😌'
+      }
 
       //Ya Gak Tau Sih...
       const snek = require('node-superfetch');
