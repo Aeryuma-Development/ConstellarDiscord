@@ -4,7 +4,7 @@ class ConstellarExtension {
     this.version = "v1.0.00000-discord";
     this.mode = undefined;
     this.sector = undefined;
-    this.protocok = undefined;
+    this.protocol = undefined;
     this.shard = null;
     this.status = undefined;
     this.ApiObj = undefined;
@@ -36,10 +36,6 @@ class ConstellarExtension {
         this.sector = "DiscordSectorProtocol";
         this.mode = 'Normal';
         this.shard = client.guilds.cache.map(x => x.shardId)[0];
-        this.status = [
-          { name: 'ApiOfficially', active: false },
-          { name: 'IkuAPI', active: false }
-      ]
       } catch (err) {
         console.log(`[ERROR] Setup Gagal : ${err}`)
       }
@@ -91,9 +87,11 @@ class ConstellarExtension {
       ===================*/
       console.log(`[INFO] Aktifitas Bot Saat Ini Adalah\n\n ${this.activity}`)
       client.user.setPresence({ status: 'idle', activities: [{ name: this.activity }] })
-      setInterval(function() {
-        client.user.setPresence({ status: 'idle', activities: [{ name: this.activity }] })
-      }, 120000)
+      setInterval(function(){
+        if(typeof this.activity === "string") {
+          client.user.setPresence({ status: 'idle', activities: [{ name: this.activity }] })
+        }
+      },120000)
       /*=================
       Uptime
       ===================*/
