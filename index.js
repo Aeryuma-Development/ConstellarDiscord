@@ -149,7 +149,7 @@ class ConstellarExtension {
         }
       })
       // Hmmm.....
-      client.on('interactionCreate', (interaction) => {
+      client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
           if (interaction.commandName === "eval") {
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
@@ -446,5 +446,3 @@ class ConstellarExtension {
     }
   }
 }
-
-module.exports = ConstellarExtension
