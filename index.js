@@ -8,7 +8,9 @@ class ConstellarExtension {
     this.shard = null;
     this.status = undefined;
     this.ApiObj = undefined;
-    this.activity = "Error"
+    this.activity = "Error";
+    this.databaseStart = undefined;
+    this.systemStart = undefined;
   }
   open(client, tokenApi, mongoLink, status) {
     try {
@@ -72,6 +74,7 @@ class ConstellarExtension {
     Channels : ${client.channels.cache.size}
     ====================================
     `)
+    this.systemStart = Date.now();
       console.log('[SETUP] Constellar Disetel Dalam Mode "Normal"')
       console.log('[SETUP] Bahasa Menggunakan Bahasa Indonesia (Kecuali Eror Menggunakan Bahasa Inggris)')
 
@@ -128,6 +131,7 @@ class ConstellarExtension {
         throw 'Isi Dulu mongoLinknya Kakak 😌'
       } else {
         try {
+          this.databaseStart = Date.now()
           mongoose.connect(
             mongoLink, { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true }
           );
@@ -135,8 +139,8 @@ class ConstellarExtension {
             console.log(`[INFO] Database Connected (Mongoose)`);
           });
           mongoose.connection.on('error', err => {
-            console.log("[DATABASE] Error :" + err);
-          });
+  console.log("[DATABASE] Error :" + err);
+});
         } catch (err) {
           console.log('[INFO] Database Failed to Connect (Mongoose) :\n\n' + err)
         }
@@ -169,6 +173,65 @@ class ConstellarExtension {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
       })
+      
+      //Slash Command
+      client.on('interactionCreate', async (interaction) => {
+  //========================= S E N T E N C E
+  const sentence = {
+    owner:"Gomenne Oniichan, You Are Not My Developer, I Don't Allow You To Run This Command",
+    premium:"Oniichan, This command is currently unavailable, maybe in a future version",
+    beta:"Maybe My Dev Means This Command Is For Beta Users",
+    disable:"This command is disabled",
+  }
+  //========================= C O M M A N D C H E C K
+  if(!interaction.isCommand()) return;
+  let cmd = interaction.commandName
+  let command = await client.commands.get(cmd);
+  if(!command) { 
+    try { cmd = interaction.options.getSubcommandGroup() } catch { cmd = interaction.options.getSubcommand() }
+    command = await client.commands.get(cmd)
+  }
+  
+  var dev = oniichan;
+  
+  if(command.ownerOnly) {
+    if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner);
+  };
+
+  //======================== P E R M I S S I O N
+  if(command.disable) {
+    if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable);
+  }
+  if(command.premiumOnly) {
+    if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.premium);
+  }
+  if(command.betaOnly) {
+    if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta);
+  }
+  
+  if (command.botPermission) {
+    const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
+    if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permision ${Permissions.join(", ")} To Execute This Command!`)
+  } 
+  
+  if (command.authorPermission) {
+    const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
+    if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} To Execute This Command!`)
+  }
+    
+  if(command.nsfw) {
+    if(!interaction.channel.nsfw) {
+      return this.respondNsfw(interaction)
+    }
+  }
+  
+  //Run Command
+  try {
+  if (command) await command.run(client, interaction)
+  } catch(err) {
+    this.respondError(interaction, err)
+  }
+  });
       // Hmmm.....
       client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
@@ -430,6 +493,58 @@ class ConstellarExtension {
       return (end - start).toString + 'ms'
     } catch (err) {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
+    }
+  }
+  clientStats(client) {
+    try {
+      if (!this.mode) {
+        throw 'Kakak, Kamu Belum Menyalakan Constellar Sama Sekali'
+      }
+    const promises = [
+	client.shard.fetchClientValues('guilds.cache.size'),
+	client.shard.broadcastEval(c => c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)),
+];
+Promise.all(promises)
+	.then(results => {
+		const totalGuilds = results[0].reduce((acc, guildCount) => acc + guildCount, 0);
+		const totalMembers = results[1].reduce((acc, memberCount) => acc + memberCount, 0);
+		return {totalGuilds:totalGuilds,totalMembers:totalMembers}
+	})
+	.catch(console.error);
+    } catch (err) {
+      `[ERROR] Eror Terdeteksi Kak : ${err}`
+    }
+  }
+  respondNsfw(interaction) {
+    let embed = new MessageEmbed()
+  .setFooter(`Something Wrong?, Please Contact the Developer`)
+  .setTimestamp()
+  .setTitle("Error")
+  .setColor("PURPLE")
+  .setDescription(`<a:uncheck:791326328472993832> | Gomenne Oniichan, This Command Can Only Be Used On Channels With NSFW Settings On`)
+  interaction.reply({embeds:[embed]});
+  }
+  
+  respondError(interaction, text) {
+    const { MessageEmbed } = require('discord.js')
+    let embed = new MessageEmbed()
+    .setFooter(`Something Wrong?, Please Contact the Developer`)
+    .setTimestamp()
+    .setTitle("Error")
+    .setColor("RED")
+    .setDescription(`<a:uncheck:791326328472993832> | ${text}`)
+    try {
+    return {
+      reply() {
+    interaction.reply({embeds:[Embed]})
+  },
+  
+  followUp() {
+    interaction.followUp({embeds:[Embed]})
+  }
+    }
+    } catch(err) {
+      interaction.channel.send(text)
     }
   }
 
