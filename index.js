@@ -158,16 +158,7 @@ class ConstellarExtension {
 
       client.on('ready', () => {
         try {
-          const commands = [{ name: 'setslash', description: 'Memasang Slash Command' }, { name: 'eval', description: 'Memasang Slash Command' }, {
-              name: 'eval',
-              description: 'This Command Is Executed Only By My Owner',
-              options: [{ name: 'action', description: 'Enter Code', type: 'STRING', required: true }]
-            }, {
-              name: 'execute',
-              description: 'This Command Is Executed Only By My Owner',
-              options: [{ name: 'action', description: 'Enter Code', type: 'STRING', required: true }]
-            },
-                ]
+          const commands = [{ name: 'setslash', description: 'Memasang Slash Command' }]
           client.guilds.cache.get('853233681879793675')
         } catch (err) {
           console.log("[ERROR] Setup Slash Cmd :" + err)
