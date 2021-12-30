@@ -128,7 +128,7 @@ class ConstellarExtension {
       //Database Dari .env
       const mongoose = require('mongoose')
       if (!mongoLink) {
-        throw 'Isi Dulu mongoLinknya Kakak 😌'
+        console.log('Login Tanpa Database, Isi Dulu mongoLinknya Kakak 😌')
       } else {
         try {
           this.databaseStart = Date.now()
