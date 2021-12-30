@@ -495,6 +495,7 @@ class ConstellarExtension {
       if (!this.mode) {
         throw 'Kakak, Kamu Belum Menyalakan Constellar Sama Sekali'
       }
+      if(!client) throw 'Clientnya Gak Ada :)'
     const promises = [
 	client.shard.fetchClientValues('guilds.cache.size'),
 	client.shard.broadcastEval(c => c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)),
@@ -505,7 +506,6 @@ Promise.all(promises)
 		const totalMembers = results[1].reduce((acc, memberCount) => acc + memberCount, 0);
 		return {totalGuilds:totalGuilds,totalMembers:totalMembers}
 	})
-	.catch(console.error);
     } catch (err) {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
     }
