@@ -227,7 +227,7 @@ class ConstellarExtension {
   
   //Run Command
   try {
-  if (command) await command.run(client, interaction)
+  if (command) await command.run(client, interaction, this)
   } catch(err) {
     this.respondError(interaction, err)
   }
