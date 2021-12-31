@@ -178,14 +178,16 @@ class ConstellarExtension {
   if(!interaction.isCommand()) return;
   let cmd = interaction.commandName
   let command = await client.commands.get(cmd);
-  try {
   if(!command) { 
+    try {
     try { cmd = interaction.options.getSubcommandGroup() } catch { cmd = interaction.options.getSubcommand() }
     command = await client.commands.get(cmd)
+  } catch(err) {
+    if(!err) return;
   }
-  } catch {
-    return;
   }
+  
+  
   
   var dev = oniichan;
   
@@ -400,7 +402,11 @@ class ConstellarExtension {
         }
 
         if (interaction.isButton()) {
-          if (interaction.customId === "deleteeval") return interaction.deleteReply()
+          if (interaction.customId === "deleteeval") {
+            try {
+            return interaction.deleteReply()
+          } catch(err) { return }
+          }
         }
 
       })
