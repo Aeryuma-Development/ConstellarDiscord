@@ -192,7 +192,7 @@ class ConstellarExtension {
           try {
             try { cmd = interaction.options.getSubcommandGroup() } catch { cmd = interaction.options.getSubcommand() }
           } catch (err) {
-            console.log('[INFO] Melompati Sebuah Eror ._.')
+            console.log("[ERROR] Sebelumnya Ada Eror Kakak :" + err)
           }
         }
         command = await client.commands.get(cmd)
@@ -241,7 +241,7 @@ class ConstellarExtension {
             command.run(client, interaction).catch(err => {
               return this.respondError(interaction, "System Error :" + err).reply()
             })
-          },250)
+          },500)
         }
       });
       // Hmmm.....
