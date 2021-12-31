@@ -532,11 +532,11 @@ return Promise.all(promises)
     try {
     return {
       reply() {
-    interaction.reply({embeds:[Embed]})
+    interaction.reply({embeds:[embed]})
   },
   
   followUp() {
-    interaction.followUp({embeds:[Embed]})
+    interaction.followUp({embeds:[embed]})
   }
     }
     } catch(err) {
