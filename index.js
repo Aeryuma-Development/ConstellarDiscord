@@ -235,8 +235,8 @@ class ConstellarExtension {
           setTimeout(function() {
             command.run(client, interaction).catch(err => {
               return this.respondError(interaction, "System Error :" + err).reply()
-            }, 1000)
-          })
+            })
+          }, 1000)
         }
       });
       // Hmmm.....
