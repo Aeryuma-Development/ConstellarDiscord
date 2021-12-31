@@ -178,14 +178,11 @@ class ConstellarExtension {
   if(!interaction.isCommand()) return;
   let cmd = interaction.commandName
   let command = await client.commands.get(cmd);
-  if(!command) { 
-    try {
+  if(!command) {
     try { cmd = interaction.options.getSubcommandGroup() } catch { cmd = interaction.options.getSubcommand() }
-    command = await client.commands.get(cmd)
-  } catch(err) {
-    if(!err) return;
   }
-  }
+  command = await client.commands.get(cmd)
+  if(!command) return;
   
   
   
@@ -223,11 +220,9 @@ class ConstellarExtension {
   }
   
   //Run Command
-  try {
-  if (command) await command.run(client, interaction, this)
-  } catch(err) {
-    this.respondError(interaction, err)
-  }
+  if (command) await command.run(client, interaction, this).catch(err => {
+    return this.respondError(interaction, "System Error :" + err).reply()
+  })
   });
       // Hmmm.....
       client.on('interactionCreate', async (interaction) => {
