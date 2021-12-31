@@ -176,6 +176,7 @@ class ConstellarExtension {
 
       //Slash Command
       client.on('interactionCreate', async (interaction) => {
+        const { MessageEmbed } = require("discord.js")
         //========================= S E N T E N C E
         const sentence = {
           owner: "Gomenne Oniichan, You Are Not My Developer, I Don't Allow You To Run This Command",
@@ -196,7 +197,11 @@ class ConstellarExtension {
         }
         command = await client.commands.get(cmd)
         if (!command) return;
-        interaction.reply("Wait a moment")
+        const Embed = new MessageEmbed()
+        .setTitle("Wait a moment..")
+        .setDescription('Maybe 0.5 Seconds Or More')
+        .setColor("RANDOM")
+        interaction.reply({embeds:[Embed]})
 
         var dev = oniichan;
         if (command.ownerOnly) {
@@ -236,7 +241,7 @@ class ConstellarExtension {
             command.run(client, interaction).catch(err => {
               return this.respondError(interaction, "System Error :" + err).reply()
             })
-          }, 1000)
+          },250)
         }
       });
       // Hmmm.....
