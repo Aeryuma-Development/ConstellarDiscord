@@ -106,8 +106,10 @@ class ConstellarExtension {
       API Get
       ===================*/
       function kona(x) {
+        if(x === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
         this.ApiObj = x
-        if(this.ApiObj === undefined || null) console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
+        client.things = x
+        client.things.this = x.bot.find(x => x.id = client.user.id)
       }
       
       try {
