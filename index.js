@@ -105,15 +105,15 @@ class ConstellarExtension {
       /*=================
       API Get
       ===================*/
-        
-      
+
+
       try {
         axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
           console.log('[INFO] API Connected')
-          if(x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
-        this.ApiObj = x.data
-        client.things = x.data
-        client.things.this = x.data.bot.find(x => x.id = client.user.id)
+          if (x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
+          this.ApiObj = x.data
+          client.things = x.data
+          client.things.this = x.data.bot.find(x => x.id = client.user.id)
         })
       } catch (err) {
         console.log(`[ERROR] API Eror : ${err}`)
@@ -123,7 +123,7 @@ class ConstellarExtension {
         try {
           axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
             console.log('[INFO] API Restarting..')
-            
+
             if (x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
             this.ApiObj = x.data
             client.things = x.data
@@ -193,7 +193,7 @@ class ConstellarExtension {
         command = await client.commands.get(cmd)
         if (!command) return;
         interaction.reply("Wait a moment")
-        
+
         var dev = oniichan;
         if (command.ownerOnly) {
           if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
@@ -227,16 +227,16 @@ class ConstellarExtension {
         }
 
         //Run Command
-        var consellar = this;
-        if (command) await command.run(client, interaction).catch(err => {
-          return this.respondError(interaction, "System Error :" + err).reply()
+        setTimeout(function() {
+          command.run(client, interaction).catch(err => {
+            return this.respondError(interaction, "System Error :" + err).reply()
+          }, 500)
         })
       });
       // Hmmm.....
       client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
           if (interaction.commandName === "eval") {
-            interaction.reply("Wait a moment")
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
             const { MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require('discord.js')
 
@@ -389,7 +389,6 @@ class ConstellarExtension {
 
           }
           if (interaction.commandName === "execute") {
-            interaction.reply("Wait a moment")
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
             const process = require('child_process')
             interaction.reply(`Tunggu Sebentar Onichan..`)
