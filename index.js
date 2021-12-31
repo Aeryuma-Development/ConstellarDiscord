@@ -106,10 +106,10 @@ class ConstellarExtension {
       API Get
       ===================*/
       function kona(x) {
-        client.things = x
-        client.things.this = x.bots.find(x => x.id === client.user.join).then(x => x)
         this.ApiObj = x
+        if(this.ApiObj === undefined || null) console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
       }
+      
       try {
         axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
           console.log('[INFO] API Connected')
