@@ -192,20 +192,22 @@ class ConstellarExtension {
         }
         command = await client.commands.get(cmd)
         if (!command) return;
+        interaction.deferReply()
+        
         var dev = oniichan;
         if (command.ownerOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner);
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
         };
 
         //======================== P E R M I S S I O N
         if (command.disable) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable);
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable).reply();
         }
         if (command.premiumOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.premium);
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.premium).reply();
         }
         if (command.betaOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta);
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta).reply();
         }
 
         if (command.botPermission) {
@@ -234,6 +236,7 @@ class ConstellarExtension {
       client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
           if (interaction.commandName === "eval") {
+            interaction.deferReply()
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
             const { MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require('discord.js')
 
@@ -386,6 +389,7 @@ class ConstellarExtension {
 
           }
           if (interaction.commandName === "execute") {
+            interaction.deferReply()
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
             const process = require('child_process')
             interaction.reply(`Tunggu Sebentar Onichan..`)
@@ -525,7 +529,7 @@ class ConstellarExtension {
       .setTitle("Error")
       .setColor("PURPLE")
       .setDescription(`<a:uncheck:791326328472993832> | Gomenne Oniichan, This Command Can Only Be Used On Channels With NSFW Settings On`)
-    interaction.reply({ embeds: [embed] });
+    interaction.editReply({ embeds: [embed] });
   }
 
   respondError(interaction, text) {
@@ -539,7 +543,7 @@ class ConstellarExtension {
     try {
       return {
         reply() {
-          interaction.reply({ embeds: [embed] })
+          interaction.editReply({ embeds: [embed] })
         },
 
         followUp() {
