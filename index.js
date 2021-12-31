@@ -105,10 +105,15 @@ class ConstellarExtension {
       /*=================
       API Get
       ===================*/
+      function kona(x) {
+        client.things = x
+        client.things.this = x.bots.find(x => x.id === client.user.join).then(x => x)
+        this.ApiObj = x
+      }
       try {
         axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
           console.log('[INFO] API Connected')
-          return this.ApiObj = x.data
+          return kona(x.data)
         })
       } catch (err) {
         console.log(`[ERROR] API Eror : ${err}`)
@@ -118,7 +123,8 @@ class ConstellarExtension {
         try {
           axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
             console.log('[INFO] API Connected')
-            return this.ApiObj = x.data
+            
+            return kona(x.data)
           })
         } catch (err) {
           console.log(`[ERROR] API Eror : ${err}`)
