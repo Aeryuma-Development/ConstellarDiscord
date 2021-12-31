@@ -105,15 +105,15 @@ class ConstellarExtension {
       /*=================
       API Get
       ===================*/
-
-
+        
+      
       try {
         axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
           console.log('[INFO] API Connected')
-          if (x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
-          this.ApiObj = x.data
-          client.things = x.data
-          client.things.this = x.data.bot.find(x => x.id = client.user.id)
+          if(x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
+        this.ApiObj = x.data
+        client.things = x.data
+        client.things.this = x.data.bot.find(x => x.id = client.user.id)
         })
       } catch (err) {
         console.log(`[ERROR] API Eror : ${err}`)
@@ -123,7 +123,7 @@ class ConstellarExtension {
         try {
           axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
             console.log('[INFO] API Restarting..')
-
+            
             if (x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
             this.ApiObj = x.data
             client.things = x.data
@@ -518,6 +518,7 @@ class ConstellarExtension {
     }
   }
   respondNsfw(interaction) {
+    const { MessageEmbed } = require('discord.js')
     let embed = new MessageEmbed()
       .setFooter(`Something Wrong?, Please Contact the Developer`)
       .setTimestamp()
