@@ -183,11 +183,7 @@ class ConstellarExtension {
   }
   command = await client.commands.get(cmd)
   if(!command) return;
-  
-  
-  
   var dev = oniichan;
-  
   if(command.ownerOnly) {
     if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner);
   };
@@ -220,7 +216,8 @@ class ConstellarExtension {
   }
   
   //Run Command
-  if (command) await command.run(client, interaction, this).catch(err => {
+  var consellar = this;
+  if (command) await command.run(client, interaction, constellar).catch(err => {
     return this.respondError(interaction, "System Error :" + err).reply()
   })
   });
