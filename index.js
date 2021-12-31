@@ -192,7 +192,7 @@ class ConstellarExtension {
         }
         command = await client.commands.get(cmd)
         if (!command) return;
-        interaction.deferReply()
+        interaction.reply("Wait a moment")
         
         var dev = oniichan;
         if (command.ownerOnly) {
@@ -236,7 +236,7 @@ class ConstellarExtension {
       client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
           if (interaction.commandName === "eval") {
-            interaction.deferReply()
+            interaction.reply("Wait a moment")
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
             const { MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require('discord.js')
 
@@ -389,7 +389,7 @@ class ConstellarExtension {
 
           }
           if (interaction.commandName === "execute") {
-            interaction.deferReply()
+            interaction.reply("Wait a moment")
             if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
             const process = require('child_process')
             interaction.reply(`Tunggu Sebentar Onichan..`)
