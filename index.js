@@ -105,7 +105,7 @@ class ConstellarExtension {
       /*=================
       API Get
       ===================*/
-      function kona(x) {
+      function kona(constellar, x) {
         if(x === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
         this.ApiObj = x
         client.things = x
@@ -115,7 +115,7 @@ class ConstellarExtension {
       try {
         axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
           console.log('[INFO] API Connected')
-          return kona(x.data)
+          return kona(this, x.data)
         })
       } catch (err) {
         console.log(`[ERROR] API Eror : ${err}`)
@@ -126,7 +126,7 @@ class ConstellarExtension {
           axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
             console.log('[INFO] API Connected')
             
-            return kona(x.data)
+            return kona(this, x.data)
           })
         } catch (err) {
           console.log(`[ERROR] API Eror : ${err}`)
