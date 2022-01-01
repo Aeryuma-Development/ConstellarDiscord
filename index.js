@@ -169,7 +169,7 @@ class ConstellarExtension {
       client.on('ready', () => {
         try {
           const commands = [{ name: 'setslash', description: 'Memasang Slash Command' }]
-          client.guilds.cache.get('853233681879793675')
+          client.guilds.cache.get('853233681879793675').commands.set(commands)
         } catch (err) {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
@@ -178,7 +178,7 @@ class ConstellarExtension {
       client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
           if (interaction.commandName === "eval") {
-            if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
+            if (!oniichan.includes(interaction.user.id)) return this.respondError(interaction, 'Baka!!, Only My Oniichan Can Use This Command -_').reply()
             const { MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require('discord.js')
 
             const process = require('child_process')
@@ -330,7 +330,8 @@ class ConstellarExtension {
 
           }
           if (interaction.commandName === "execute") {
-            if (!oniichan.includes(interaction.user.id)) return interaction.reply('Baka!!, Only My Oniichan Can Use This Command -_')
+            if (!oniichan.includes(interaction.user.id)) return this.respondError(interaction, 'Baka!!, Only My Oniichan Can Use This Command -_').reply()
+            const some = interaction.options.getString('action')
             const process = require('child_process')
             interaction.reply(`Tunggu Sebentar Onichan..`)
 
