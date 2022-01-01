@@ -394,21 +394,23 @@ class ConstellarExtension {
         .setColor("RANDOM")
       interaction.reply({ embeds: [Embed] })
 
-      setTimeout(function() {
+      var constellar = this;
+
+      setTimeout(function(constellar) {
         var dev = oniichan;
         if (command.ownerOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
+          if (!dev.includes(interaction.user.id)) return constellar.respondError(interaction, sentence.owner).reply();
         };
 
         //======================== P E R M I S S I O N
         if (command.disable) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable).reply();
+          if (!dev.includes(interaction.user.id)) return constellar.respondError(interaction, "This Command Is Disable").reply();
         }
         if (command.premiumOnly) {
-          if (dipremium === false) return this.respondMembership(interaction)
+          if (dipremium === false) return constellar.respondMembership(interaction)
         }
         if (command.betaOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta).reply();
+          if (!dev.includes(interaction.user.id)) return constellar.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
         }
 
         if (command.botPermission) {
@@ -423,14 +425,14 @@ class ConstellarExtension {
 
         if (command.nsfw) {
           if (!interaction.channel.nsfw) {
-            return this.respondNsfw(interaction)
+            return constellar.respondNsfw(interaction)
           }
         }
 
         //Run Command
         if (command) {
-          command.run(client, interaction, this).catch(err => {
-            return this.respondError(interaction, "System Error :" + err).reply()
+          command.run(client, interaction, constellar).catch(err => {
+            return constellar.respondError(interaction, "System Error :" + err).reply()
           })
         }
       }, 1250)
@@ -535,7 +537,7 @@ class ConstellarExtension {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
     }
   }
-  static respondMembership(interaction) {
+  respondMembership(interaction) {
     const { MessageEmbed } = require("discord.js")
     const embed = new MessageEmbed()
       .setFooter("Please Join Support Server To Detail Information")
@@ -544,9 +546,9 @@ class ConstellarExtension {
       .setColor("YELLOW")
       .setDescription("Sorry, This Command Can Only Be Used For Premium Members  Sorry, This Command Can Only Be Used For Premium Members. Go To [Help Center](https://discord.gg/https://discord.gg/PRNEggfpYw) For More Information")
       .setImage('https://media.discordapp.net/attachments/847678573040631818/926660705476829274/confused-anime-gif-9.gif')
-      interaction.editReply({ embeds: [embed] });
+    interaction.editReply({ embeds: [embed] });
   }
-  static respondNsfw(interaction) {
+  respondNsfw(interaction) {
     const { MessageEmbed } = require('discord.js')
     let embed = new MessageEmbed()
       .setFooter(`Search Channels With NSFW On / Enable NSFW Settings`)
@@ -558,7 +560,7 @@ class ConstellarExtension {
     interaction.editReply({ embeds: [embed] });
   }
 
-  static respondError(interaction, text) {
+  respondError(interaction, text) {
     const { MessageEmbed } = require('discord.js')
     let embed = new MessageEmbed()
       .setFooter(`Something Wrong?, Please Contact the Developer`)
