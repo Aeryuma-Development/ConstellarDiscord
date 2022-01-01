@@ -394,7 +394,7 @@ class ConstellarExtension {
         .setColor("RANDOM")
       interaction.reply({ embeds: [Embed] })
 
-      setTimeout(function(this) {
+      setTimeout(function() {
         var dev = oniichan;
         if (command.ownerOnly) {
           if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
