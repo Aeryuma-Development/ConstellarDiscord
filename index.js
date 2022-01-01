@@ -198,10 +198,10 @@ class ConstellarExtension {
         command = await client.commands.get(cmd)
         if (!command) return;
         const Embed = new MessageEmbed()
-        .setTitle("Wait a moment..")
-        .setDescription('Maybe 0.5 Seconds Or More')
-        .setColor("RANDOM")
-        interaction.reply({embeds:[Embed]})
+          .setTitle("Wait a moment..")
+          .setDescription('Maybe 0.5 Seconds Or More')
+          .setColor("RANDOM")
+        interaction.reply({ embeds: [Embed] })
 
         var dev = oniichan;
         if (command.ownerOnly) {
@@ -241,7 +241,13 @@ class ConstellarExtension {
             command.run(client, interaction).catch(err => {
               return this.respondError(interaction, "System Error :" + err).reply()
             })
-          },500)
+          }, 1000).catch(err => {
+            setTimeout(function() {
+              command.run(client, interaction).catch(err => {
+                return this.respondError(interaction, "System Error :" + err).reply()
+              })
+            }, 2000)
+          })
         }
       });
       // Hmmm.....
