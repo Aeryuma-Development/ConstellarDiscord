@@ -178,7 +178,7 @@ class ConstellarExtension {
       client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
           if (interaction.commandName === "eval") {
-            if (!oniichan.includes(interaction.user.id)) return this.respondError(interaction, 'Baka!!, Only My Oniichan Can Use This Command -_').reply()
+            if (!oniichan.includes(interaction.user.id)) return this.respondError(interaction, 'Baka!!, Only My Oniichan Can Use This Command -_').baypass()
             const { MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require('discord.js')
 
             const process = require('child_process')
@@ -330,7 +330,7 @@ class ConstellarExtension {
 
           }
           if (interaction.commandName === "execute") {
-            if (!oniichan.includes(interaction.user.id)) return this.respondError(interaction, 'Baka!!, Only My Oniichan Can Use This Command -_').reply()
+            if (!oniichan.includes(interaction.user.id)) return this.respondError(interaction, 'Baka!!, Only My Oniichan Can Use This Command -_').baypass()
             const some = interaction.options.getString('action')
             const process = require('child_process')
             interaction.reply(`Tunggu Sebentar Onichan..`)
@@ -580,6 +580,9 @@ class ConstellarExtension {
 
         followUp() {
           interaction.followUp({ embeds: [embed] })
+        },
+        bapyass() {
+          interaction.reply({ embeds: [embed] })
         }
       }
     } catch (err) {
