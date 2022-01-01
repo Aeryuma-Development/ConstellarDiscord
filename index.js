@@ -393,24 +393,23 @@ class ConstellarExtension {
         .setDescription('Maybe 0.5 Seconds Or More')
         .setColor("RANDOM")
       interaction.reply({ embeds: [Embed] })
-
-      var constellar = this;
+      
 
       setTimeout(function(constellar) {
         var dev = oniichan;
         if (command.ownerOnly) {
-          if (!dev.includes(interaction.user.id)) return constellar.respondError(interaction, sentence.owner).reply();
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
         };
 
         //======================== P E R M I S S I O N
         if (command.disable) {
-          if (!dev.includes(interaction.user.id)) return constellar.respondError(interaction, "This Command Is Disable").reply();
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This Command Is Disable").reply();
         }
         if (command.premiumOnly) {
-          if (dipremium === false) return constellar.respondMembership(interaction)
+          if (dipremium === false) return this.respondMembership(interaction)
         }
         if (command.betaOnly) {
-          if (!dev.includes(interaction.user.id)) return constellar.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
         }
 
         if (command.botPermission) {
@@ -425,17 +424,18 @@ class ConstellarExtension {
 
         if (command.nsfw) {
           if (!interaction.channel.nsfw) {
-            return constellar.respondNsfw(interaction)
+            return this.respondNsfw(interaction)
           }
         }
 
         //Run Command
+        var constellar = this;
         if (command) {
           command.run(client, interaction, constellar).catch(err => {
-            return constellar.respondError(interaction, "System Error :" + err).reply()
+            return this.respondError(interaction, "System Error :" + err).reply()
           })
         }
-      }, 1250)
+      }.bind(this), 1250)
     });
   }
   setMode(mode) {
@@ -546,7 +546,7 @@ class ConstellarExtension {
       .setColor("YELLOW")
       .setDescription("Sorry, This Command Can Only Be Used For Premium Members  Sorry, This Command Can Only Be Used For Premium Members. Go To [Help Center](https://discord.gg/https://discord.gg/PRNEggfpYw) For More Information")
       .setImage('https://media.discordapp.net/attachments/847678573040631818/926660705476829274/confused-anime-gif-9.gif')
-    interaction.editReply({ embeds: [embed] });
+      interaction.editReply({ embeds: [embed] });
   }
   respondNsfw(interaction) {
     const { MessageEmbed } = require('discord.js')
