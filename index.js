@@ -173,85 +173,6 @@ class ConstellarExtension {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
       })
-
-      //Slash Command
-      client.on('interactionCreate', async (interaction) => {
-        const { MessageEmbed } = require("discord.js")
-        //========================= S E N T E N C E
-        const sentence = {
-          owner: "Gomenne Oniichan, You Are Not My Developer, I Don't Allow You To Run This Command",
-          premium: "Oniichan, This command is currently unavailable, maybe in a future version",
-          beta: "Maybe My Dev Means This Command Is For Beta Users",
-          disable: "This command is disabled",
-        }
-        //========================= C O M M A N D C H E C K
-        if (!interaction.isCommand()) return;
-        let cmd = interaction.commandName
-        let command = await client.commands.get(cmd);
-        if (!command) {
-          try {
-            try { cmd = interaction.options.getSubcommandGroup() } catch { cmd = interaction.options.getSubcommand() }
-          } catch (err) {
-            console.log("[ERROR] Sebelumnya Ada Eror Kakak :" + err)
-          }
-        }
-        command = await client.commands.get(cmd)
-        if (!command) return;
-        const Embed = new MessageEmbed()
-          .setTitle("Wait a moment..")
-          .setDescription('Maybe 0.5 Seconds Or More')
-          .setColor("RANDOM")
-        interaction.reply({ embeds: [Embed] })
-
-        var dev = oniichan;
-        if (command.ownerOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
-        };
-
-        //======================== P E R M I S S I O N
-        if (command.disable) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable).reply();
-        }
-        if (command.premiumOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.premium).reply();
-        }
-        if (command.betaOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta).reply();
-        }
-
-        if (command.botPermission) {
-          const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
-          if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permision ${Permissions.join(", ")} To Execute This Command!`)
-        }
-
-        if (command.authorPermission) {
-          const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
-          if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} To Execute This Command!`)
-        }
-
-        if (command.nsfw) {
-          if (!interaction.channel.nsfw) {
-            return this.respondNsfw(interaction)
-          }
-        }
-
-        //Run Command
-        if (command) {
-          try {
-            setTimeout(function() {
-              command.run(client, interaction).catch(err => {
-                return this.respondError(interaction, "System Error :" + err).reply()
-              })
-            }, 1000)
-          } catch (err) {
-            setTimeout(function() {
-              command.run(client, interaction).catch(err => {
-                return this.respondError(interaction, "System Error :" + err).reply()
-              })
-            }, 2000)
-          }
-        }
-      });
       // Hmmm.....
       client.on('interactionCreate', async (interaction) => {
         if (interaction.isCommand()) {
@@ -440,6 +361,81 @@ class ConstellarExtension {
       process.exit()
     }
   }
+
+  setCommandHandling(client) {
+    var axios = require('axios')
+    //Slash Command
+    client.on('interactionCreate', async (interaction) => {
+      const { MessageEmbed } = require("discord.js")
+
+      var dipremium = false
+      if (client.things.this.type === "zarunya" || "narunya") {
+        //axios.get("")
+      } else {
+        //axios.get()
+      }
+
+      //========================= C O M M A N D C H E C K
+      if (!interaction.isCommand()) return;
+      let cmd = interaction.commandName
+      let command = await client.commands.get(cmd);
+      if (!command) {
+        try {
+          try { cmd = interaction.options.getSubcommandGroup() } catch { cmd = interaction.options.getSubcommand() }
+        } catch (err) {
+          console.log("[ERROR] Sebelumnya Ada Eror Kakak :" + err)
+        }
+      }
+      command = await client.commands.get(cmd)
+      if (!command) return;
+      const Embed = new MessageEmbed()
+        .setTitle("Wait a moment..")
+        .setDescription('Maybe 0.5 Seconds Or More')
+        .setColor("RANDOM")
+      interaction.reply({ embeds: [Embed] })
+
+      var dev = oniichan;
+      if (command.ownerOnly) {
+        if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
+      };
+
+      //======================== P E R M I S S I O N
+      if (command.disable) {
+        if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable).reply();
+      }
+      if (command.premiumOnly) {
+        if (dipremium === false) return this.respondMembership(interaction)
+      }
+      if (command.betaOnly) {
+        if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta).reply();
+      }
+
+      if (command.botPermission) {
+        const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
+        if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
+      }
+
+      if (command.authorPermission) {
+        const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
+        if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
+      }
+
+      if (command.nsfw) {
+        if (!interaction.channel.nsfw) {
+          return this.respondNsfw(interaction)
+        }
+      }
+
+      //Run Command
+      if (command) {
+        setTimeout(function() {
+          command.run(client, interaction, this).catch(err => {
+            return this.respondError(interaction, "System Error :" + err).reply()
+          })
+        }, 1250)
+      }
+    });
+  }
   setMode(mode) {
     try {
       if (!this.mode) {
@@ -539,14 +535,24 @@ class ConstellarExtension {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
     }
   }
+  respondMembership(interaction) {
+    const { MessageEmbed } = require("discord.js")
+    const embed = new MessageEmbed()
+      .setFooter("Please Join Support Server To Detail Information")
+      .setTimestamp()
+      .setTitle("This Command is Locked")
+      .setColor("YELLOW")
+      .setDescription("Sorry, This Command Can Only Be Used For Premium Members  Sorry, This Command Can Only Be Used For Premium Members. Go To [Help Center](https://discord.gg/https://discord.gg/PRNEggfpYw) For More Information")
+      .setImage('https://media.discordapp.net/attachments/847678573040631818/926660705476829274/confused-anime-gif-9.gif')
+  }
   respondNsfw(interaction) {
     const { MessageEmbed } = require('discord.js')
     let embed = new MessageEmbed()
-      .setFooter(`Something Wrong?, Please Contact the Developer`)
+      .setFooter(`Search Channels With NSFW On / Enable NSFW Settings`)
       .setTimestamp()
       .setTitle("Error")
       .setColor("PURPLE")
-      .setDescription(`<a:uncheck:791326328472993832> | Gomenne Oniichan, This Command Can Only Be Used On Channels With NSFW Settings On`)
+      .setDescription(`<:manhelo:791329210085539870> | Gomenne Oniichan, This Command Can Only Be Used On Channels With NSFW Settings On`)
     interaction.editReply({ embeds: [embed] });
   }
 
