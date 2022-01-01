@@ -394,7 +394,7 @@ class ConstellarExtension {
         .setColor("RANDOM")
       interaction.reply({ embeds: [Embed] })
 
-      setTimeout(function() {
+      setTimeout(function(this) {
         var dev = oniichan;
         if (command.ownerOnly) {
           if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
@@ -535,7 +535,7 @@ class ConstellarExtension {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
     }
   }
-  respondMembership(interaction) {
+  static respondMembership(interaction) {
     const { MessageEmbed } = require("discord.js")
     const embed = new MessageEmbed()
       .setFooter("Please Join Support Server To Detail Information")
@@ -546,7 +546,7 @@ class ConstellarExtension {
       .setImage('https://media.discordapp.net/attachments/847678573040631818/926660705476829274/confused-anime-gif-9.gif')
       interaction.editReply({ embeds: [embed] });
   }
-  respondNsfw(interaction) {
+  static respondNsfw(interaction) {
     const { MessageEmbed } = require('discord.js')
     let embed = new MessageEmbed()
       .setFooter(`Search Channels With NSFW On / Enable NSFW Settings`)
@@ -558,7 +558,7 @@ class ConstellarExtension {
     interaction.editReply({ embeds: [embed] });
   }
 
-  respondError(interaction, text) {
+  static respondError(interaction, text) {
     const { MessageEmbed } = require('discord.js')
     let embed = new MessageEmbed()
       .setFooter(`Something Wrong?, Please Contact the Developer`)
