@@ -1,7 +1,7 @@
 class ConstellarExtension {
   constructor() {
     this._events = {};
-    this.version = "v1.0.00000-discord";
+    this.version = "v1.0.1-discord";
     this.mode = undefined;
     this.sector = undefined;
     this.protocol = undefined;
