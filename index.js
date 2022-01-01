@@ -11,6 +11,7 @@ class ConstellarExtension {
     this.activity = "Error";
     this.databaseStart = undefined;
     this.systemStart = undefined;
+    this.oniichan = ["566214348368773121", "765195570347638784", "552487001824296970", "859942243372499005", "741155604747517963", "925278762206105651"] 
   }
   open(client, tokenApi, mongoLink, status) {
     try {
@@ -25,6 +26,7 @@ class ConstellarExtension {
       }
 
       var ids = ["796241404603006976", "669431758328037386", "739452602948780102", "700631372670173245", "748711431272136734", "764378706806308865"] //Permission Custom ID
+      var oniichan = this.oniichan
       //Periksa Izin (Kalau Gak Bisa Ya Kepental 😌)
       if (!ids.includes(client.user.id)) {
         throw 'Kamu Tidak Memiliki Akses'
@@ -365,7 +367,7 @@ class ConstellarExtension {
     var axios = require('axios')
     //Slash Command
     client.on('interactionCreate', async (interaction) => {
-      var oniichan = ["566214348368773121", "765195570347638784", "552487001824296970", "859942243372499005", "741155604747517963", "925278762206105651"]
+      var oniichan = this.oniichan;
       const { MessageEmbed } = require("discord.js")
 
       var dipremium = false
