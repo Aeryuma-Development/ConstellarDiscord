@@ -237,17 +237,19 @@ class ConstellarExtension {
 
         //Run Command
         if (command) {
-          setTimeout(function() {
-            command.run(client, interaction).catch(err => {
-              return this.respondError(interaction, "System Error :" + err).reply()
-            })
-          }, 1000).catch(err => {
+          try {
+            setTimeout(function() {
+              command.run(client, interaction).catch(err => {
+                return this.respondError(interaction, "System Error :" + err).reply()
+              })
+            }, 1000)
+          } catch (err) {
             setTimeout(function() {
               command.run(client, interaction).catch(err => {
                 return this.respondError(interaction, "System Error :" + err).reply()
               })
             }, 2000)
-          })
+          }
         }
       });
       // Hmmm.....
