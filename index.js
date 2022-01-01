@@ -394,46 +394,46 @@ class ConstellarExtension {
         .setColor("RANDOM")
       interaction.reply({ embeds: [Embed] })
 
-      var dev = oniichan;
-      if (command.ownerOnly) {
-        if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
-      };
+      setTimeout(function() {
+        var dev = oniichan;
+        if (command.ownerOnly) {
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
+        };
 
-      //======================== P E R M I S S I O N
-      if (command.disable) {
-        if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable).reply();
-      }
-      if (command.premiumOnly) {
-        if (dipremium === false) return this.respondMembership(interaction)
-      }
-      if (command.betaOnly) {
-        if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta).reply();
-      }
-
-      if (command.botPermission) {
-        const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
-        if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
-      }
-
-      if (command.authorPermission) {
-        const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
-        if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
-      }
-
-      if (command.nsfw) {
-        if (!interaction.channel.nsfw) {
-          return this.respondNsfw(interaction)
+        //======================== P E R M I S S I O N
+        if (command.disable) {
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.disable).reply();
         }
-      }
+        if (command.premiumOnly) {
+          if (dipremium === false) return this.respondMembership(interaction)
+        }
+        if (command.betaOnly) {
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.beta).reply();
+        }
 
-      //Run Command
-      if (command) {
-        setTimeout(function() {
+        if (command.botPermission) {
+          const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
+          if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
+        }
+
+        if (command.authorPermission) {
+          const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
+          if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
+        }
+
+        if (command.nsfw) {
+          if (!interaction.channel.nsfw) {
+            return this.respondNsfw(interaction)
+          }
+        }
+
+        //Run Command
+        if (command) {
           command.run(client, interaction, this).catch(err => {
             return this.respondError(interaction, "System Error :" + err).reply()
           })
-        }, 1250)
-      }
+        }
+      }, 1250)
     });
   }
   setMode(mode) {
