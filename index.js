@@ -581,7 +581,7 @@ class ConstellarExtension {
         followUp() {
           interaction.followUp({ embeds: [embed] })
         },
-        bapyass() {
+        baypass() {
           interaction.reply({ embeds: [embed] })
         }
       }
