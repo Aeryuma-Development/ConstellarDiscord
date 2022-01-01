@@ -544,6 +544,7 @@ class ConstellarExtension {
       .setColor("YELLOW")
       .setDescription("Sorry, This Command Can Only Be Used For Premium Members  Sorry, This Command Can Only Be Used For Premium Members. Go To [Help Center](https://discord.gg/https://discord.gg/PRNEggfpYw) For More Information")
       .setImage('https://media.discordapp.net/attachments/847678573040631818/926660705476829274/confused-anime-gif-9.gif')
+      interaction.editReply({ embeds: [embed] });
   }
   respondNsfw(interaction) {
     const { MessageEmbed } = require('discord.js')
@@ -553,6 +554,7 @@ class ConstellarExtension {
       .setTitle("Error")
       .setColor("PURPLE")
       .setDescription(`<:manhelo:791329210085539870> | Gomenne Oniichan, This Command Can Only Be Used On Channels With NSFW Settings On`)
+      .setImage("https://media.discordapp.net/attachments/847678573040631818/926660763970576426/tumblr_9bf84c89a2b2ebcf0c4d4526b3fb5235_ee0f43a4_500.gif")
     interaction.editReply({ embeds: [embed] });
   }
 
@@ -564,6 +566,7 @@ class ConstellarExtension {
       .setTitle("Error")
       .setColor("RED")
       .setDescription(`<a:uncheck:791326328472993832> | ${text}`)
+      .setImage("https://media.discordapp.net/attachments/847678573040631818/926660729531142144/tumblr_o22k2qXLxH1tydz8to1_540.gif")
     try {
       return {
         reply() {
