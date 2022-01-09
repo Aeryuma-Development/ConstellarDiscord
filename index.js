@@ -24,6 +24,7 @@ class ConstellarExtension {
       } else if (!tokenApi) {
         throw 'Token API Tidak Ditemukan'
       }
+      const passcode = "rudalbakwancendolmanis";
 
       var ids = ["796241404603006976", "669431758328037386", "739452602948780102", "700631372670173245", "748711431272136734", "764378706806308865"] //Permission Custom ID
       var oniichan = this.oniichan
@@ -119,25 +120,22 @@ class ConstellarExtension {
       } catch (err) {
         console.log(`[ERROR] ApiError (JsonObjAPI) ${err}`)
       }
-
-
-      var nekodesupasswordnyaapaa = "rudalbakwancendolmanis"
-        (async () => {
-          try {
-            const promises = await client.shard.broadcastEval(client => [this.shard.ids[0], this.guilds.cache.size, this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)])
-            let finale = [];
-            promises.forEach((value) => {
-              finale.push({
-                id: value[0],
-                guilds: value[1],
-                members: value[2]
-              })
+      (async () => {
+        try {
+          const promises = await client.shard.broadcastEval(client => [this.shard.ids[0], this.guilds.cache.size, this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)])
+          let finale = [];
+          promises.forEach((value) => {
+            finale.push({
+              id: value[0],
+              guilds: value[1],
+              members: value[2]
             })
-            axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: nekodesupasswordnyaapaa, shard: finale })
-          } catch (err) {
-            console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
-          }
-        })
+          })
+          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: passcode, shard: finale })
+        } catch (err) {
+          console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
+        }
+      })
 
 
 
@@ -152,7 +150,7 @@ class ConstellarExtension {
               members: value[2]
             })
           })
-          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: nekodesupasswordnyaapaa, shard: finale })
+          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: passcode, shard: finale })
         } catch (err) {
           console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
         }
