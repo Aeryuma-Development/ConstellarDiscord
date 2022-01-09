@@ -122,24 +122,26 @@ class ConstellarExtension {
 
 
       var nekodesupasswordnyaapaa = "rudalbakwancendolmanis"
-
-      try {
-        const promises = await client.shard.broadcastEval(client => [this.shard.ids[0], this.guilds.cache.size, this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)])
-        let finale = [];
-        promises.forEach((value) => {
-          finale.push({
-            id: value[0],
-            guilds: value[1],
-            members: value[2]
-          })
+        (async () => {
+          try {
+            const promises = await client.shard.broadcastEval(client => [this.shard.ids[0], this.guilds.cache.size, this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)])
+            let finale = [];
+            promises.forEach((value) => {
+              finale.push({
+                id: value[0],
+                guilds: value[1],
+                members: value[2]
+              })
+            })
+            axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: nekodesupasswordnyaapaa, shard: finale })
+          } catch (err) {
+            console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
+          }
         })
-        axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: nekodesupasswordnyaapaa, shard: finale })
-      } catch (err) {
-        console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
-      }
 
 
-      setInterval(function() {
+
+      setInterval(async function() {
         try {
           const promises = await client.shard.broadcastEval(client => [this.shard.ids[0], this.guilds.cache.size, this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)])
           let finale = [];
