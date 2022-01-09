@@ -117,9 +117,44 @@ class ConstellarExtension {
           client.things.this = x.data.bot.find(x => x.id = client.user.id)
         })
       } catch (err) {
-        console.log(`[ERROR] API Eror : ${err}`)
+        console.log(`[ERROR] ApiError (JsonObjAPI) ${err}`)
       }
 
+
+      var nekodesupasswordnyaapaa = "rudalbakwancendolmanis"
+
+      try {
+        const promises = await client.shard.broadcastEval(client => [this.shard.ids[0], this.guilds.cache.size, this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)])
+        let finale = [];
+        promises.forEach((value) => {
+          finale.push({
+            id: value[0],
+            guilds: value[1],
+            members: value[2]
+          })
+        })
+        axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: nekodesupasswordnyaapaa, shard: finale })
+      } catch (err) {
+        console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
+      }
+
+
+      setInterval(function() {
+        try {
+          const promises = await client.shard.broadcastEval(client => [this.shard.ids[0], this.guilds.cache.size, this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)])
+          let finale = [];
+          promises.forEach((value) => {
+            finale.push({
+              id: value[0],
+              guilds: value[1],
+              members: value[2]
+            })
+          })
+          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: nekodesupasswordnyaapaa, shard: finale })
+        } catch (err) {
+          console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
+        }
+      }, 50000)
       setInterval(function() {
         try {
           axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
@@ -131,7 +166,7 @@ class ConstellarExtension {
             client.things.this = x.data.bot.find(x => x.id = client.user.id)
           })
         } catch (err) {
-          console.log(`[ERROR] API Eror : ${err}`)
+          console.log(`[ERROR] ApiError (JsonObjAPI) : ${err}`)
         }
       }, 30000)
 
