@@ -116,6 +116,8 @@ class ConstellarExtension {
           this.ApiObj = x.data
           client.things = x.data
           client.things.this = x.data.bot.find(x => x.id = client.user.id)
+        }).catch(function(error) {
+          return console.log(`[ERROR] ApiError (JsonObjAPI) : Gagal Terhubung... Return`)
         })
       } catch (err) {
         console.log(`[ERROR] ApiError (JsonObjAPI) ${err}`)
@@ -131,7 +133,11 @@ class ConstellarExtension {
               members: value[2]
             })
           })
-          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", {id:client.user.id, apiKey: passcode, shard: finale })
+          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { id: client.user.id, apiKey: passcode, shard: finale }).then(x => {
+            console.log('[INFO] API Send (PostStatsAPI) .. ')
+          }).catch(function(error) {
+            return console.log(`[ERROR] ApiError (PostStatsAPI) : Gagal Terhubung... Return`)
+          })
         } catch (err) {
           console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
         }
@@ -150,7 +156,11 @@ class ConstellarExtension {
               members: value[2]
             })
           })
-          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", {id:client.user.id, apiKey: passcode, shard: finale })
+          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { id: client.user.id, apiKey: passcode, shard: finale }).then(x => {
+            console.log('[INFO] API Send (PostStatsAPI) .. ')
+          }).catch(function(error) {
+            return console.log(`[ERROR] ApiError (PostStatsAPI) : Gagal Terhubung... Return`)
+          })
         } catch (err) {
           console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
         }
@@ -158,7 +168,9 @@ class ConstellarExtension {
       setInterval(function() {
         try {
           axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
-            console.log('[INFO] API Restarting..')
+            console.log('[INFO] API Restarting..').catch(function(error) {
+              return console.log(`[ERROR] ApiError (JsonObjAPI) : Gagal Terhubung... Return`)
+            })
 
             if (x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
             this.ApiObj = x.data
