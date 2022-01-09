@@ -1,7 +1,7 @@
 class ConstellarExtension {
   constructor() {
     this._events = {};
-    this.version = "v1.0.1-discord";
+    this.version = "v1.0.3-discord";
     this.mode = undefined;
     this.sector = undefined;
     this.protocol = undefined;
@@ -70,7 +70,7 @@ class ConstellarExtension {
           ]
       var hari = date.getDay()
       var bulan = date.getMonth()
-      var format = `${listhari[hari]}, ${date.getDay()} ${listbulan[bulan]} ${date.getFullYear} | ${jam}:${menit}:${detik}`
+      var format = `${listhari[hari]}, ${date.getDay()} ${listbulan[bulan]} ${date.getFullYear()} | ${jam}:${menit}:${detik}`
       //Langsung Gasken :v
       console.log(`
 [INFO] Open Constellar 
@@ -92,7 +92,7 @@ class ConstellarExtension {
     Channels : ${client.channels.cache.size}
     ====================================
     ©AeryumaDevelopment`)
-
+    
       this.systemStart = Date.now();
       console.log('[SETUP] Constellar Disetel Dalam Mode "Normal"')
       console.log('[SETUP] Bahasa Menggunakan Bahasa Indonesia (Kecuali Eror Menggunakan Bahasa Inggris)')
