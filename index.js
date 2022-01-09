@@ -1,7 +1,7 @@
 class ConstellarExtension {
   constructor() {
     this._events = {};
-    this.version = "v1.0.1-discord";
+    this.version = "v1.0.3-discord";
     this.mode = undefined;
     this.sector = undefined;
     this.protocol = undefined;
@@ -168,15 +168,15 @@ class ConstellarExtension {
       setInterval(function() {
         try {
           axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
-            console.log('[INFO] API Restarting..').catch(function(error) {
-              return console.log(`[ERROR] ApiError (JsonObjAPI) : Gagal Terhubung... Return`)
-            })
+            console.log('[INFO] API Restarting..')
 
             if (x.data === undefined || null) return console.log("[ERROR] Gomenne Oniichan, Ternyata API Menghasilkan undefined / null")
             this.ApiObj = x.data
             client.things = x.data
             client.things.this = x.data.bot.find(x => x.id = client.user.id)
-          })
+          }).catch(function(error) {
+              return console.log(`[ERROR] ApiError (JsonObjAPI) : Gagal Terhubung... Return`)
+            })
         } catch (err) {
           console.log(`[ERROR] ApiError (JsonObjAPI) : ${err}`)
         }
