@@ -131,7 +131,7 @@ class ConstellarExtension {
               members: value[2]
             })
           })
-          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: passcode, shard: finale })
+          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", {id:client.user.id, apiKey: passcode, shard: finale })
         } catch (err) {
           console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
         }
@@ -150,7 +150,7 @@ class ConstellarExtension {
               members: value[2]
             })
           })
-          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", { apiKey: passcode, shard: finale })
+          axios.post("https://AeryumaKashigami.nekokawaikanaka.repl.co/api/stats", {id:client.user.id, apiKey: passcode, shard: finale })
         } catch (err) {
           console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
         }
