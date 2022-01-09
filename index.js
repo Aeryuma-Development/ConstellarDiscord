@@ -243,7 +243,7 @@ class ConstellarExtension {
         if (!interaction.isButton()) return;
         if (interaction.customId === "deleteeval") {
           try {
-            return interaction.deleteReply()
+            await interaction.deleteReply().then(console.log).catch(console.error);
           } catch (err) { return }
         }
       })
