@@ -92,7 +92,7 @@ class ConstellarExtension {
     Channels : ${client.channels.cache.size}
     ====================================
     ©AeryumaDevelopment`)
-    
+
       this.systemStart = Date.now();
       console.log('[SETUP] Constellar Disetel Dalam Mode "Normal"')
       console.log('[SETUP] Bahasa Menggunakan Bahasa Indonesia (Kecuali Eror Menggunakan Bahasa Inggris)')
@@ -281,50 +281,47 @@ class ConstellarExtension {
           .setTitle("Wait a moment..")
           .setDescription('Maybe 0.5 Seconds Or More')
           .setColor("RANDOM")
-        interaction.reply({ embeds: [Embed] })
+        await interaction.reply({ embeds: [Embed] })
 
+        var dev = oniichan;
+        if (command.ownerOnly) {
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
+        };
 
-        setTimeout(function(constellar) {
-          var dev = oniichan;
-          if (command.ownerOnly) {
-            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
-          };
+        //======================== P E R M I S S I O N
+        if (command.disable) {
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This Command Is Disable").reply();
+        }
+        if (command.premiumOnly) {
+          if (!dev.includes(interaction.user.id)) return this.respondMembership(interaction)
+        }
+        if (command.betaOnly) {
+          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
+        }
 
-          //======================== P E R M I S S I O N
-          if (command.disable) {
-            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This Command Is Disable").reply();
-          }
-          if (command.premiumOnly) {
-            if (!dev.includes(interaction.user.id)) return this.respondMembership(interaction)
-          }
-          if (command.betaOnly) {
-            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
-          }
+        if (command.botPermission) {
+          const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
+          if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
+        }
 
-          if (command.botPermission) {
-            const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
-            if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
-          }
+        if (command.authorPermission) {
+          const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
+          if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
+        }
 
-          if (command.authorPermission) {
-            const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
-            if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
+        if (command.nsfw) {
+          if (!interaction.channel.nsfw) {
+            return this.respondNsfw(interaction)
           }
+        }
 
-          if (command.nsfw) {
-            if (!interaction.channel.nsfw) {
-              return this.respondNsfw(interaction)
-            }
-          }
-
-          //Run Command
-          var constellar = this;
-          if (command) {
-            command.run(client, interaction, constellar).catch(err => {
-              return this.respondError(interaction, "System Error :" + err).reply()
-            })
-          }
-        }.bind(this), 1250)
+        //Run Command
+        var constellar = this;
+        if (command) {
+          command.run(client, interaction, constellar).catch(err => {
+            return this.respondError(interaction, "System Error :" + err).reply()
+          })
+        }
       } catch (err) {
         return console.log("[RETURN] Kak, Bot Melompati Perintah Ini Karena Terlambat Merespon :)")
       }
