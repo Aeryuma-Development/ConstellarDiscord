@@ -230,12 +230,15 @@ class ConstellarExtension {
         return `https://bin-clientdev.glitch.me/${body.key}`;
       };
 
-      try {
-        const commands = [{ name: 'setslash', description: 'Memasang Slash Command' }]
-        await client.application.commands.set(commands, '853233681879793675')
-      } catch (err) {
-        console.log("[ERROR] Setup Slash Cmd :" + err)
-      }
+      setTimeout(async function() {
+        try {
+          const commands = [{ name: 'setslash', description: 'Memasang Slash Command' }]
+          await client.application.commands.set(commands, '853233681879793675')
+        } catch (err) {
+          console.log("[ERROR] Setup Slash Cmd :" + err)
+        }
+      })
+
 
       // Hmmm.....
       client.on('interactionCreate', async (interaction) => {
