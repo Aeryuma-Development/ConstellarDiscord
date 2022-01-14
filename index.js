@@ -12,6 +12,7 @@ class ConstellarExtension {
     this.databaseStart = undefined;
     this.systemStart = undefined;
     this.oniichan = ["566214348368773121", "765195570347638784", "552487001824296970", "859942243372499005", "741155604747517963", "925278762206105651"]
+    this.commands = []
   }
   open(client, tokenApi, mongoLink, status) {
     try {
@@ -92,7 +93,7 @@ class ConstellarExtension {
     Channels : ${client.channels.cache.size}
     ====================================
     ©AeryumaDevelopment`)
-
+    
       this.systemStart = Date.now();
       console.log('[SETUP] Constellar Disetel Dalam Mode "Normal"')
       console.log('[SETUP] Bahasa Menggunakan Bahasa Indonesia (Kecuali Eror Menggunakan Bahasa Inggris)')
@@ -229,17 +230,18 @@ class ConstellarExtension {
           .send(text);
         return `https://bin-clientdev.glitch.me/${body.key}`;
       };
-
-      setTimeout(async function() {
+      
+      setTimeout(async function(){
         try {
-          const commands = [{ name: 'setslash', description: 'Memasang Slash Command' }]
-          await client.application.commands.set(commands, '853233681879793675')
+          const setslash = { name: 'setslash', description: 'Memasang Slash Command' }
+          await this.commands.push(setslash)
+          await client.application.commands.set(this.commands,'853233681879793675')
         } catch (err) {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
-      })
-
-
+      }.bind(this), 1000)
+        
+      
       // Hmmm.....
       client.on('interactionCreate', async (interaction) => {
         if (!interaction.isButton()) return;
@@ -257,7 +259,12 @@ class ConstellarExtension {
       process.exit()
     }
   }
-
+  
+  addCommand(cmd) {
+    if(!typeof cmd === Array) throw 'Harus Array'
+    this.commands = cmd
+  }
+  
   setCommandHandling(client) {
     var axios = require('axios')
     //Slash Command
@@ -285,45 +292,45 @@ class ConstellarExtension {
           .setColor("RANDOM")
         await interaction.reply({ embeds: [Embed] })
 
-        var dev = oniichan;
-        if (command.ownerOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
-        };
+          var dev = oniichan;
+          if (command.ownerOnly) {
+            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
+          };
 
-        //======================== P E R M I S S I O N
-        if (command.disable) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This Command Is Disable").reply();
-        }
-        if (command.premiumOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondMembership(interaction)
-        }
-        if (command.betaOnly) {
-          if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
-        }
-
-        if (command.botPermission) {
-          const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
-          if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
-        }
-
-        if (command.authorPermission) {
-          const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
-          if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
-        }
-
-        if (command.nsfw) {
-          if (!interaction.channel.nsfw) {
-            return this.respondNsfw(interaction)
+          //======================== P E R M I S S I O N
+          if (command.disable) {
+            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This Command Is Disable").reply();
           }
-        }
+          if (command.premiumOnly) {
+            if (!dev.includes(interaction.user.id)) return this.respondMembership(interaction)
+          }
+          if (command.betaOnly) {
+            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
+          }
 
-        //Run Command
-        var constellar = this;
-        if (command) {
-          command.run(client, interaction, constellar).catch(err => {
-            return this.respondError(interaction, "System Error :" + err).reply()
-          })
-        }
+          if (command.botPermission) {
+            const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
+            if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
+          }
+
+          if (command.authorPermission) {
+            const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
+            if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
+          }
+
+          if (command.nsfw) {
+            if (!interaction.channel.nsfw) {
+              return this.respondNsfw(interaction)
+            }
+          }
+
+          //Run Command
+          var constellar = this;
+          if (command) {
+            command.run(client, interaction, constellar).catch(err => {
+              return this.respondError(interaction, "System Error :" + err).reply()
+            })
+          }
       } catch (err) {
         return console.log("[RETURN] Kak, Bot Melompati Perintah Ini Karena Terlambat Merespon :)")
       }
