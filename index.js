@@ -1,57 +1,32 @@
+const { version } = "v1.1.0"
+const sector = "AeryumaSactuanary-Devoid10";
+const oniichan = ["566214348368773121", "765195570347638784", "552487001824296970", "859942243372499005", "741155604747517963", "925278762206105651"]
+
 class ConstellarExtension {
   constructor() {
     this._events = {};
-    this.version = "v1.0.3-discord";
-    this.mode = undefined;
-    this.sector = undefined;
-    this.protocol = undefined;
+    this.version = "v1.1.0-discord";
     this.shard = null;
-    this.status = undefined;
     this.ApiObj = undefined;
-    this.activity = "Error";
     this.databaseStart = undefined;
     this.systemStart = undefined;
-    this.oniichan = ["566214348368773121", "765195570347638784", "552487001824296970", "859942243372499005", "741155604747517963", "925278762206105651"]
     this.commands = []
   }
-  open(client, tokenApi, mongoLink, status) {
+  open(client, tokenApi, mongoLink) {
     try {
-      var axios = require("axios");
-      if (!process.version === 'v17.3.0') {
-        throw 'Node.js Kamu Tidak Kompatibel Dengan Constellar'
-      }
+      const axios = require("axios");
+
       if (!client) {
         throw 'Client Tidak Ditemukan'
       } else if (!tokenApi) {
         throw 'Token API Tidak Ditemukan'
       }
-      const passcode = "rudalbakwancendolmanis";
-
-      var ids = ["796241404603006976", "669431758328037386", "739452602948780102", "700631372670173245", "748711431272136734", "764378706806308865"] //Permission Custom ID
-      var oniichan = this.oniichan
-      //Periksa Izin (Kalau Gak Bisa Ya Kepental 😌)
-      if (!ids.includes(client.user.id)) {
-        throw 'Kamu Tidak Memiliki Akses'
-      }
-
 
       //Config
       try {
-        this.protocol = "AeryumaSactuanary-Devoid10";
-        this.sector = "DiscordSectorProtocol";
-        this.mode = 'Normal';
         this.shard = client.guilds.cache.map(x => x.shardId)[0];
       } catch (err) {
         console.log(`[ERROR] Setup Gagal : ${err}`)
-      }
-
-      if (status === undefined || null) {
-        console.log('[INFO] Status Tidak Di Setup, Secara Otomatis Akan Diganti Menjadi Bawaan Constellar')
-        console.log('[INFO] Status Diperbarui Menjadi Default')
-        this.activity = `Constellar Bot | Shard ${this.shard}`
-      } else {
-        console.log('[INFO] Status Diperbarui Menjadi Custom')
-        this.activity = status + ` | Shard ${this.shard}`
       }
 
       //Constellar Obj
@@ -59,25 +34,11 @@ class ConstellarExtension {
       this.start = Date.now()
       console.log(`[START] Constellar Extension Aeryuma ${this.version}`)
 
-      //Format Start :v
-      var Waktu = new Date().toLocaleString("en-US", { timeZone: "Asia/Jakarta" })
-      var date = new Date(Waktu)
-      var jam = date.getHours()
-      var menit = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-      var detik = (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
-      var listhari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
-      var listbulan = [
-          "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-          ]
-      var hari = date.getDay()
-      var bulan = date.getMonth()
-      var format = `${listhari[hari]}, ${date.getDay()} ${listbulan[bulan]} ${date.getFullYear()} | ${jam}:${menit}:${detik}`
       //Langsung Gasken :v
       console.log(`
 [INFO] Open Constellar 
     ====================================
     Constellar Inugaku (Discord)
-    ${format}
     ------------------------------------
     • Node : ${process.version}
     • Constellar : ${this.version}
@@ -93,28 +54,9 @@ class ConstellarExtension {
     Channels : ${client.channels.cache.size}
     ====================================
     ©AeryumaDevelopment`)
-    
+
       this.systemStart = Date.now();
-      console.log('[SETUP] Constellar Disetel Dalam Mode "Normal"')
-      console.log('[SETUP] Bahasa Menggunakan Bahasa Indonesia (Kecuali Eror Menggunakan Bahasa Inggris)')
 
-      //Pengecekan Tahap 1
-      if (this.status === null || undefined) {
-        console.log('(System) Status Tidak Terdaftar')
-        return process.exit()
-      }
-
-
-      /*=================
-      Bot Status
-      ===================*/
-      console.log(`[INFO] Aktifitas Bot Saat Ini Adalah\n\n ${this.activity}`)
-      client.user.setPresence({ status: 'idle', activities: [{ name: this.activity }] })
-      setInterval(function() {
-        if (typeof this.activity === "string") {
-          client.user.setPresence({ status: 'idle', activities: [{ name: this.activity }] })
-        }
-      }, 120000)
       /*=================
       Uptime
       ===================*/
@@ -125,8 +67,7 @@ class ConstellarExtension {
       /*=================
       API Get
       ===================*/
-
-
+      const passcode = tokenApi
       try {
         axios.get('http://AeryumaNoriyomi.nekokawaikanaka.repl.co').then(x => {
           console.log('[INFO] API Connected (JsonObjAPI)...')
@@ -160,8 +101,6 @@ class ConstellarExtension {
           console.log('[ERROR] ApiError (PostStatsAPI) :' + err)
         }
       })
-
-
 
       setInterval(async function() {
         try {
@@ -203,7 +142,7 @@ class ConstellarExtension {
       //Database Dari .env
       const mongoose = require('mongoose')
       if (!mongoLink) {
-        console.log('Login Tanpa Database, Isi Dulu mongoLinknya Kakak 😌')
+        console.log('[INFO] Login Tanpa Database')
       } else {
         try {
           this.databaseStart = Date.now()
@@ -230,28 +169,16 @@ class ConstellarExtension {
           .send(text);
         return `https://bin-clientdev.glitch.me/${body.key}`;
       };
-      
-      setTimeout(async function(){
+
+      setTimeout(async function() {
         try {
           const setslash = { name: 'setslash', description: 'Memasang Slash Command' }
           await this.commands.push(setslash)
-          await client.application.commands.set(this.commands,'853233681879793675')
+          await client.application.commands.set(this.commands, '853233681879793675')
         } catch (err) {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
       }.bind(this), 1000)
-        
-      
-      // Hmmm.....
-      client.on('interactionCreate', async (interaction) => {
-        if (!interaction.isButton()) return;
-        if (interaction.customId === "deleteeval") {
-          try {
-            await interaction.deferUpdate()
-            return interaction.deleteReply().then(console.log).catch(console.error);
-          } catch (err) { return }
-        }
-      })
 
 
     } catch (err) {
@@ -259,118 +186,10 @@ class ConstellarExtension {
       process.exit()
     }
   }
-  
+
   addCommand(cmd) {
-    if(!typeof cmd === Array) throw 'Harus Array'
+    if (!typeof cmd === Array) throw 'Harus Array'
     this.commands = cmd
-  }
-  
-  setCommandHandling(client) {
-    var axios = require('axios')
-    //Slash Command
-    client.on('interactionCreate', async (interaction) => {
-      try {
-        var oniichan = this.oniichan;
-        const { MessageEmbed } = require("discord.js")
-
-        //========================= C O M M A N D C H E C K
-        if (!interaction.isCommand()) return;
-        let cmd = interaction.commandName
-        let command = await client.commands.get(cmd);
-        if (!command) {
-          try {
-            try { cmd = interaction.options.getSubcommandGroup() } catch { cmd = interaction.options.getSubcommand() }
-          } catch (err) {
-            console.log("[ERROR] Sebelumnya Ada Eror Kakak :" + err)
-          }
-        }
-        command = await client.commands.get(cmd)
-        if (!command) return;
-        const Embed = new MessageEmbed()
-          .setTitle("Wait a moment..")
-          .setDescription('Maybe 0.5 Seconds Or More')
-          .setColor("RANDOM")
-        await interaction.reply({ embeds: [Embed] })
-
-          var dev = oniichan;
-          if (command.ownerOnly) {
-            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, sentence.owner).reply();
-          };
-
-          //======================== P E R M I S S I O N
-          if (command.disable) {
-            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This Command Is Disable").reply();
-          }
-          if (command.premiumOnly) {
-            if (!dev.includes(interaction.user.id)) return this.respondMembership(interaction)
-          }
-          if (command.betaOnly) {
-            if (!dev.includes(interaction.user.id)) return this.respondError(interaction, "This command can only be used by users who have registered with the early access program").reply();
-          }
-
-          if (command.botPermission) {
-            const Permissions = command.botPermission.filter(x => !interaction.guild.me.permission.has(x)).map(x => "`" + x + "`")
-            if (Permissions.length) return interaction.reply(`Oniichan, Give Me Permisions ${Permissions.join(", ")} To Execute This Command!`)
-          }
-
-          if (command.authorPermission) {
-            const Permissions = command.authorPermission.filter(x => !interaction.member.permission.has(x)).map(x => "`" + x + "`")
-            if (Permissions.length) return interaction.reply(`Oniichan Baka!!, You need ${Permissions.join(", ")} Permissions To Execute This Command!`)
-          }
-
-          if (command.nsfw) {
-            if (!interaction.channel.nsfw) {
-              return this.respondNsfw(interaction)
-            }
-          }
-
-          //Run Command
-          var constellar = this;
-          if (command) {
-            command.run(client, interaction, constellar).catch(err => {
-              return this.respondError(interaction, "System Error :" + err).reply()
-            })
-          }
-      } catch (err) {
-        return console.log("[RETURN] Kak, Bot Melompati Perintah Ini Karena Terlambat Merespon :)")
-      }
-    });
-  }
-  setMode(mode) {
-    try {
-      if (!this.mode) {
-        throw 'Kakak, Kamu Belum Menyalakan Constellar Sama Sekali'
-      }
-
-      if (mode === 1 || "Slyph") {
-        `[SETUP] Constellar Disetel Dalam Mode Slyph`
-        this.mode = "Slyph"
-      }
-    } catch (err) {
-      console.log(`[ERROR] Eror Terdeteksi Kak : ${err}`)
-    }
-  }
-
-  exit() {
-    try {
-      if (!this.mode) throw 'Kakak, Kamu Belum Menyalakan Constellar Sama Sekali'
-      "[INFO] Mematikan Host / IDE Beserta Constellar"
-      client.destroy()
-      process.exit()
-    } catch (err) {
-      `[ERROR] Constellar Gagal Dimatikan, Saranku Matikan Secara Paksa Kak\n\n ${err}`
-    }
-  }
-
-  status() {
-    try {
-      if (!this.mode) {
-        throw 'Kakak, Kamu Belum Menyalakan Constellar Sama Sekali'
-      }
-      return this.status.map(x => x)
-    } catch {
-      `[ERROR] Eror Terdeteksi Kak : ${err}`
-    }
   }
 
   on(name, listener) {
@@ -415,6 +234,7 @@ class ConstellarExtension {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
     }
   }
+
   clientStats(client) {
     try {
       if (!this.mode) {
@@ -435,94 +255,18 @@ class ConstellarExtension {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
     }
   }
-  respondMembership(interaction) {
-    const { MessageEmbed } = require("discord.js")
-    const embed = new MessageEmbed()
-      .setFooter("Please Join Support Server To Detail Information")
-      .setTimestamp()
-      .setTitle("This Command is Locked")
-      .setColor("YELLOW")
-      .setDescription("Sorry, This Command Can Only Be Used For Premium Members  Sorry, This Command Can Only Be Used For Premium Members. Go To [Help Center](https://discord.gg/https://discord.gg/PRNEggfpYw) For More Information")
-      .setImage('https://media.discordapp.net/attachments/847678573040631818/926660705476829274/confused-anime-gif-9.gif')
-    interaction.editReply({ embeds: [embed] });
-  }
-  respondNsfw(interaction) {
-    const { MessageEmbed } = require('discord.js')
-    let embed = new MessageEmbed()
-      .setFooter(`Search Channels With NSFW On / Enable NSFW Settings`)
-      .setTimestamp()
-      .setTitle("Error")
-      .setColor("PURPLE")
-      .setDescription(`<:manhelo:791329210085539870> | Gomenne Oniichan, This Command Can Only Be Used On Channels With NSFW Settings On`)
-      .setImage("https://media.discordapp.net/attachments/847678573040631818/926660763970576426/tumblr_9bf84c89a2b2ebcf0c4d4526b3fb5235_ee0f43a4_500.gif")
-    interaction.editReply({ embeds: [embed] });
-  }
-
-  respondError(interaction, text) {
-    const { MessageEmbed } = require('discord.js')
-    let embed = new MessageEmbed()
-      .setFooter(`Something Wrong?, Please Contact the Developer`)
-      .setTimestamp()
-      .setTitle("Error")
-      .setColor("RED")
-      .setDescription(`<a:uncheck:791326328472993832> | ${text}`)
-      .setImage("https://media.discordapp.net/attachments/847678573040631818/926660729531142144/tumblr_o22k2qXLxH1tydz8to1_540.gif")
-    try {
-      return {
-        reply() {
-          interaction.editReply({ embeds: [embed] })
-        },
-
-        followUp() {
-          interaction.followUp({ embeds: [embed] })
-        },
-        baypass() {
-          interaction.reply({ embeds: [embed] })
-        }
-      }
-    } catch (err) {
-      interaction.channel.send(text)
-    }
-  }
-
-  parseDuration(time, lang) {
-    //============ •••• ==========
-    //Maksimal Tiap Waktu
-
-    var rawms = 1000 //ms
-    var rawdetik = 60 //detik
-    var rawmenit = 60 //menit
-    var rawjam = 24 //jam
-
-    //============ •••• ==========
-    //Perhitungan
-
-    var detik = Math.floor(time / rawms);
-    if (detik > rawdetik) detik = Math.floor(detik % rawdetik)
-
-    var menit = Math.floor(time / (rawms * rawdetik));
-    if (menit > rawmenit) menit = Math.floor(menit % rawmenit)
-
-    var jam = Math.floor(time / (rawms * rawdetik * rawmenit));
-    if (jam > rawjam) jam = Math.floor(jam % rawjam)
-
-    var hari = Math.floor(time / (rawms * rawdetik * rawmenit * rawjam))
-    //============ •••• ==========
-    //Pengkondisian
-
-    var data = `${hari} Days ${jam} Hours ${menit} Minutes ${detik} Seconds`
-    if (lang === "en" || undefined || null || "english") {
-      return data
-    } else if (lang === "id" || "indonesia") {
-      data = `${hari} Hari ${jam} Jam ${menit} Menit ${detik} Detik`
-      return data
-    }
-  }
-
-  get(url) {
-    var axios = require('axios')
-    return axios.get(url).then(x => x.data)
-  }
 }
 
-module.exports = ConstellarExtension
+function get(url) {
+  var axios = require('axios')
+  return axios.get(url).then(x => x.data)
+}
+
+//Module Exports
+module.exports = {
+  Client: ConstellarExtension,
+  version: version,
+  sector: sector,
+  dev: oniichan,
+  get: get
+}
