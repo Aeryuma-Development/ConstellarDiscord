@@ -174,7 +174,7 @@ class ConstellarExtension {
         try {
           const setslash = { name: 'setslash', description: 'Memasang Slash Command' }
           await this.commands.push(setslash)
-          await client.application.commands.set(this.commands, '853233681879793675')
+          await client.application.commands.set(this.commands, '938956133425631292')
         } catch (err) {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
