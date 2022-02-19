@@ -1,4 +1,4 @@
-const { version } = "v1.1.0"
+const version = "v1.1.0"
 const sector = "AeryumaSactuanary-Devoid10";
 const oniichan = ["566214348368773121", "765195570347638784", "552487001824296970", "859942243372499005", "741155604747517963", "925278762206105651"]
 
@@ -174,7 +174,7 @@ class ConstellarExtension {
         try {
           const setslash = { name: 'setslash', description: 'Memasang Slash Command' }
           await this.commands.push(setslash)
-          await client.application.commands.set(this.commands, '938956133425631292')
+          await client.application.commands.set(this.commands, '940979074883518464')
         } catch (err) {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
