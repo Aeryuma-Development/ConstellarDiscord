@@ -7,7 +7,6 @@ class ConstellarExtension {
     this._events = {};
     this.version = "v1.1.5-discord";
     this.shard = null;
-    this.ApiObj = undefined;
     this.databaseStart = undefined;
     this.systemStart = undefined;
     this.commands = []
@@ -30,8 +29,7 @@ class ConstellarExtension {
       }
 
       //Constellar Obj
-      this.ApiObj = null
-      this.start = Date.now()
+      this.start = new Date()
       console.log(`[START] Constellar Extension Aeryuma ${this.version}`)
 
       //Langsung Gasken :v
