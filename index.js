@@ -10,6 +10,7 @@ class ConstellarExtension {
     this.databaseStart = undefined;
     this.systemStart = undefined;
     this.commands = []
+    this.server = null
   }
   open(client, tokenApi) {
     try {
@@ -81,7 +82,7 @@ class ConstellarExtension {
         try {
           const setslash = { name: 'setslash', description: 'Memasang Slash Command' }
           await this.commands.push(setslash)
-          await client.application.commands.set(this.commands, '938956133425631292')
+          await client.application.commands.set(this.commands, this.server)
         } catch (err) {
           console.log("[ERROR] Setup Slash Cmd :" + err)
         }
@@ -92,6 +93,11 @@ class ConstellarExtension {
       console.log(`[ERROR] Eror : ${err}`)
       process.exit()
     }
+  }
+  
+  setServer(server) {
+    if(!typeof server === 'string') return console.log("Harus string")
+    this.server = server
   }
 
   addCommand(cmd) {
