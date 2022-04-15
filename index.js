@@ -1,11 +1,10 @@
-const { version } = "v1.1.5"
+const { version } = "v1.1.5.1-dev"
 const sector = "AeryumaSactuanary-Devoid10";
 const oniichan = ["566214348368773121", "765195570347638784", "552487001824296970", "859942243372499005", "741155604747517963", "925278762206105651"]
 
 class ConstellarExtension {
   constructor() {
-    this._events = {};
-    this.version = "v1.1.5-discord";
+    this.version = "v1.1.5.1-discord";
     this.shard = null;
     this.databaseStart = undefined;
     this.systemStart = undefined;
@@ -14,8 +13,6 @@ class ConstellarExtension {
   }
   open(client, tokenApi) {
     try {
-      const axios = require("axios");
-
       if (!client) {
         throw 'Client Tidak Ditemukan'
       } else if (!tokenApi) {
@@ -36,33 +33,27 @@ class ConstellarExtension {
       //Langsung Gasken :v
       console.log(`
 [INFO] Open Constellar 
-    ====================================
-    Constellar Inugaku (Discord)
-    ------------------------------------
-    • Node : ${process.version}
-    • Constellar : ${this.version}
-    • Discord.js : ${require('discord.js').version}
-    Dev : Kanaka Nakazawa
-    ××××××××××××××××××××××××××××××××××××
-    Username : ${client.user.username}
-    ID : ${client.user.id}
-    Shard : ${this.shard}
-    //Shard
-    Servers : ${client.guilds.cache.size}
-    Members : ${client.users.cache.size}
-    Channels : ${client.channels.cache.size}
-    ====================================
-    ©AeryumaDevelopment`)
+====================================
+Constellar Inugaku (Discord)
+------------------------------------
+ • Node : ${process.version}
+ • Constellar : ${this.version}
+ • Discord.js : ${require('discord.js').version}
+ ~ Dev : Kanaka Nakazawa
+××××××××××××××××××××××××××××××××××××
+ • Username : ${client.user.username}
+ • ID : ${client.user.id}
+ • Shard : ${this.shard}
+//Shard
+ • Servers : ${client.guilds.cache.size}
+ • Members : ${client.users.cache.size}
+ • Channels : ${client.channels.cache.size}
+====================================
+©AeryumaDevelopment`)
 
       this.systemStart = Date.now();
 
-      /*=================
-      Uptime
-      ===================*/
-      var express = require('express')
-      var app = express()
-      app.get('/', (req, res) => res.sendStatus(200))
-      app.listen(process.env.PORT)
+
       /*=================
       API Get
       ===================*/
@@ -94,9 +85,9 @@ class ConstellarExtension {
       process.exit()
     }
   }
-  
+
   setServer(server) {
-    if(!typeof server === 'string') return console.log("Harus string")
+    if (!typeof server === 'string') return console.log("Harus string")
     this.server = server
   }
 
@@ -117,6 +108,17 @@ class ConstellarExtension {
       `[ERROR] Eror Terdeteksi Kak : ${err}`
     }
   }
+  
+  deployUptime() {
+    /*=================
+      Uptime
+      ===================*/
+    var express = require('express')
+    var app = express()
+    app.get('/', (req, res) => res.sendStatus(200))
+    app.listen(process.env.PORT)
+  }
+  
   connectDatabase(mongoLink) {
     //Database Dari .env
     const mongoose = require('mongoose')
